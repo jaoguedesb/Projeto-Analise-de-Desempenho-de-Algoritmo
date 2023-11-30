@@ -1,0 +1,103 @@
+import numpy as np
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+
+class Computador:
+    def __init__(self, ram, processador, sistema_operacional):
+        self.ram = ram
+        self.processador = processador
+        self.sistema_operacional = sistema_operacional
+    
+    def comparar_ram(self, outro_computador):
+        if self.ram > outro_computador.ram:
+            return "O primeiro computador tem mais RAM."
+        elif self.ram < outro_computador.ram:
+            return "O segundo computador tem mais RAM."
+        else:
+            return "Ambos os computadores têm a mesma quantidade de RAM."
+    
+    def comparar_processador(self, outro_computador):
+        if self.processador == outro_computador.processador:
+            return "Os processadores são iguais."
+        else:
+            return "Os processadores são diferentes."
+    
+    def comparar_sistema_operacional(self, outro_computador):
+        if self.sistema_operacional == outro_computador.sistema_operacional:
+            return "Ambos os computadores têm o mesmo sistema operacional."
+        else:
+            return "Os computadores têm sistemas operacionais diferentes."
+
+# Definindo os computadores
+computador1 = Computador(32, "Intel Core i5 10th Gen", "Windows 11")
+computador2 = Computador(8, "AMD Ryzen 5", "Windows 11")
+computador3 = Computador(16, "Intel Core i3", "Windows 10")   
+computador4 = Computador(4, "Intel Core i5", "Windows 10")    
+
+# Comparando os computadores
+print("Comparação de RAM entre 1 e 2:", computador1.comparar_ram(computador2))
+print("Comparação de Processador entre 1 e 2:", computador1.comparar_processador(computador2))
+print("Comparação de Sistema Operacional entre 1 e 2:", computador1.comparar_sistema_operacional(computador2))
+
+print("Comparação de RAM entre 3 e 4:", computador3.comparar_ram(computador4))
+print("Comparação de Processador entre 3 e 4:", computador3.comparar_processador(computador4))
+print("Comparação de Sistema Operacional entre 3 e 4:", computador3.comparar_sistema_operacional(computador4))
+
+# Gerando dados hipotéticos para Algoritmo A e Algoritmo B em diferentes tamanhos de amostra
+dados_algoritmo_a = np.array([[2.5, 3.2, 2.8],
+                              [15.4, 14.2, 15.9],
+                              [120.6, 118.3, 121.8]])
+
+dados_algoritmo_b = np.array([[3.0, 2.7, 3.5],
+                              [18.2, 19.0, 17.5],
+                              [130.0, 128.9, 131.2]])
+
+# Calculando estatísticas descritivas para Algoritmo A
+media_algoritmo_a = np.mean(dados_algoritmo_a, axis=1)
+desvio_padrao_algoritmo_a = np.std(dados_algoritmo_a, axis=1)
+minimo_algoritmo_a = np.min(dados_algoritmo_a, axis=1)
+maximo_algoritmo_a = np.max(dados_algoritmo_a, axis=1)
+
+# Calculando estatísticas descritivas para Algoritmo B
+media_algoritmo_b = np.mean(dados_algoritmo_b, axis=1)
+desvio_padrao_algoritmo_b = np.std(dados_algoritmo_b, axis=1)
+minimo_algoritmo_b = np.min(dados_algoritmo_b, axis=1)
+maximo_algoritmo_b = np.max(dados_algoritmo_b, axis=1)
+
+# Imprimindo estatísticas descritivas
+print("\nEstatísticas descritivas para Algoritmo A:")
+print("Médias:", media_algoritmo_a)
+print("Desvios Padrão:", desvio_padrao_algoritmo_a)
+print("Mínimos:", minimo_algoritmo_a)
+print("Máximos:", maximo_algoritmo_a)
+print("\nEstatísticas descritivas para Algoritmo B:")
+print("Médias:", media_algoritmo_b)
+print("Desvios Padrão:", desvio_padrao_algoritmo_b)
+print("Mínimos:", minimo_algoritmo_b)
+print("Máximos:", maximo_algoritmo_b)
+
+# Realizando o teste t de Student para comparar os algoritmos A e B em cada tamanho de amostra
+_, p_value_10 = stats.ttest_ind(dados_algoritmo_a[0], dados_algoritmo_b[0])
+_, p_value_100 = stats.ttest_ind(dados_algoritmo_a[1], dados_algoritmo_b[1])
+_, p_value_1000 = stats.ttest_ind(dados_algoritmo_a[2], dados_algoritmo_b[2])
+
+# Registrando os resultados dos testes de hipótese
+print("\nResultados dos testes de hipótese (valor-p):")
+print("Para amostra de tamanho 10:", p_value_10)
+print("Para amostra de tamanho 100:", p_value_100)
+print("Para amostra de tamanho 1000:", p_value_1000)
+
+# Função para plotar histogramas
+def plotar_histograma(dados_a, dados_b, titulo):
+    plt.hist(dados_a, alpha=0.5, label='Algoritmo A')
+    plt.hist(dados_b, alpha=0.5, label='Algoritmo B')
+    plt.title(titulo)
+    plt.xlabel('Valor')
+    plt.ylabel('Frequência')
+    plt.legend()
+    plt.show()
+
+# Plotando histogramas para cada tamanho de amostra
+plotar_histograma(dados_algoritmo_a[0], dados_algoritmo_b[0], "Histograma para Amostra de Tamanho 10")
+plotar_histograma(dados_algoritmo_a[1], dados_algoritmo_b[1], "Histograma para Amostra de Tamanho 100")
+plotar_histograma(dados_algoritmo_a[2], dados_algoritmo_b[2], "Histograma para Amostra de Tamanho 1000")
